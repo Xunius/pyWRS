@@ -38,3 +38,5 @@ via the lower and upper quantiles, Journal of Statistical Computation and Simula
 10.1080/00949655.2012.754026
 
 + The R code: https://raw.githubusercontent.com/nicebread/WRS/master/pkg/R/Rallfun-v39.R
+
++ An blog post on the subject: http://www.nicebread.de/comparing-all-quantiles-of-two-distributions-simultaneously/
