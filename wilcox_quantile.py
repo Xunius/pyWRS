@@ -215,7 +215,9 @@ def compare_quantiles(x, y, quantiles=None, n_boot=2000, alpha=0.05, adj_ci=True
             quantiles [0.1, 0.25, 0.5, 0.75, 0.9].
         n_boot (int): number of random bootstrap resampling.
         alpha (float): confidence level.
-        adj_ci (bool): whether to adjust confidence intervals using a 2nd iteration.
+        adj_ci (bool): whether to do the Hochberg correction, to
+            correct the p-values when testing for 2 or more quantiles.
+            More details see the paper.
         seed (int or None): seed to use for random sampling.
     Returns:
         output (dict): computed statistics, with these keys:
@@ -260,7 +262,7 @@ def compare_quantiles(x, y, quantiles=None, n_boot=2000, alpha=0.05, adj_ci=True
     output[tmp, 6] = zvec
 
     #-------------Adjust ci by re-compute-------------
-    if adj_ci:
+    if adj_ci and nq > 1:
         for ii, qii in enumerate(quantiles):
             ci_lower, ci_upper, pvalue, se = bootstrap_est(
                     xval, yval, n_boot, qii, output[ii, 6], seed)
@@ -299,7 +301,9 @@ def compare_quantiles_vec(x, y, quantiles=None, n_boot=2000, alpha=0.05, adj_ci=
             quantiles [0.1, 0.25, 0.5, 0.75, 0.9].
         n_boot (int): number of random bootstrap resampling.
         alpha (float): confidence level.
-        adj_ci (bool): whether to adjust confidence intervals using a 2nd iteration.
+        adj_ci (bool): whether to do the Hochberg correction, to
+            correct the p-values when testing for 2 or more quantiles.
+            More details see the paper.
         seed (int or None): seed to use for random sampling.
     Returns:
         output (dict): computed statistics, with these keys:
@@ -345,7 +349,7 @@ def compare_quantiles_vec(x, y, quantiles=None, n_boot=2000, alpha=0.05, adj_ci=
     output[tmp, 6] = zvec
 
     #-------------Adjust ci by re-compute-------------
-    if adj_ci:
+    if adj_ci and nq > 1:
 
         for ii, qii in enumerate(quantiles):
             estxii, estyii, ci_lower, ci_upper, pvalue, se = bootstrap_est_vec(
